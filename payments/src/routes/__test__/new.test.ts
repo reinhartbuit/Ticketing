@@ -4,6 +4,7 @@ import { app } from '../../app';
 import { Order } from '../../models/order';
 import { OrderStatus } from '@rbtgittix/common';
 import { stripe } from '../../stripe';
+import { Payment } from '../../models/payment';
 
 it('returns a 404 when purchasing an order that does not exists', async () => {
   await request(app)
@@ -81,4 +82,10 @@ it('return a 204 with valid inputs', async () => {
   });
   expect(stripeCharge).toBeDefined();
   expect(stripeCharge!.currency).toEqual('usd');
+
+  const payment = await Payment.findOne({
+    orderId: order.id,
+    stripeId: stripeCharge!.id,
+  });
+  expect(payment).not.toBeNull();
 });

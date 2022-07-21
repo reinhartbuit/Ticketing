@@ -8,6 +8,7 @@ const start = async () => {
     throw new Error('MONGO_URI must be defined');
   }
   try {
+    console.log('test');
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');
   } catch (err) {
